@@ -1,3 +1,7 @@
+// sol.go
+// Elliott R. Lewandowski
+// 2025-12-05
+// Solution to Advent of Code day 1
 package main
 
 import (
@@ -45,12 +49,14 @@ func solve(content string) {
 		switch string(line[0]) {
 		case "L":
 			new_pos := (dial - dist)
+			// Count rotations past 0 that are less than a circle
 			if dial-(dist%100) < 0 && dial != 0 {
 				part_2 += 1
 			}
 			dial = new_pos
 		case "R":
 			new_pos := (dial + dist)
+			// Count rotations past 0 that are less than a circle
 			if dial+(dist%100) > 100 && dial != 0 {
 				part_2 += 1
 			}
@@ -81,5 +87,3 @@ func solve(content string) {
 	fmt.Println("***********************  RESULT  *************************")
 	fmt.Println("PART 1: ", part_1, "\nPART 2: ", part_2)
 }
-
-// Part 2 should be: 5820
