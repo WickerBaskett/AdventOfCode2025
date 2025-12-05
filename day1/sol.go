@@ -14,20 +14,21 @@ func main() {
 	//  Read Input File  //
 	///////////////////////
 
-	content, err := os.ReadFile("demoinput.txt")
+	content, err := os.ReadFile("input.txt")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	part1(string(content))
+	solve(string(content))
 
 }
 
 // Solves Part 1
-func part1(content string) {
+func solve(content string) {
 	dial := 50
-	zeros := 0
+	part_1 := 0
+	part_2 := 0
 
 	for _, line := range strings.Split(string(content), "\n") {
 		if line == "" {
@@ -43,17 +44,25 @@ func part1(content string) {
 		// Turn dial in appropriate direction
 		switch string(line[0]) {
 		case "L":
-			dial -= dist
-			fmt.Println("L: ", dist)
+			new_pos := (dial - dist)
+			if dial-(dist%100) < 0 && dial != 0 {
+				part_2 += 1
+			}
+			dial = new_pos
 		case "R":
-			dial += dist
-			fmt.Println("R: ", dist)
+			new_pos := (dial + dist)
+			if dial+(dist%100) > 100 && dial != 0 {
+				part_2 += 1
+			}
+			dial = new_pos
 		default:
 			log.Fatal("BAD INPUT")
 		}
 
-		// Wrap dial value at 0 and 99
+		// Counts full rotations past 0
+		part_2 += dist / 100
 
+		// Wrap value to range [0, 99]
 		dial %= 100
 
 		if dial > 99 {
@@ -62,13 +71,15 @@ func part1(content string) {
 			dial += 100
 		}
 
+		// Count exact 0's
 		if dial == 0 {
-			zeros += 1
+			part_1 += 1
+			part_2 += 1
 		}
-
-		fmt.Println("Dial: ", dial)
 	}
 
 	fmt.Println("***********************  RESULT  *************************")
-	fmt.Println("VALUE: ", zeros)
+	fmt.Println("PART 1: ", part_1, "\nPART 2: ", part_2)
 }
+
+// Part 2 should be: 5820
