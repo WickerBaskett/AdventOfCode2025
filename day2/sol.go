@@ -1,7 +1,7 @@
 // tmpl.go
 // Elliott R. Lewandowski
 // 2025-12-05
-// Template for solving Advent of Code challenges
+// Solution to Advent of Code 2025 day 2
 package main
 
 import (

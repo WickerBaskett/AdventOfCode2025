@@ -1,7 +1,7 @@
 // sol.go
 // Elliott R. Lewandowski
 // 2025-12-05
-// Solution to Advent of Code day 1
+// Solution to Advent of Code 2025 day 1
 package main
 
 import (
@@ -48,6 +48,7 @@ func solve(content string) {
 		// Turn dial in appropriate direction
 		switch string(line[0]) {
 		case "L":
+			fmt.Print("L: ", dist)
 			new_pos := (dial - dist)
 			// Count rotations past 0 that are less than a circle
 			if dial-(dist%100) < 0 && dial != 0 {
@@ -55,6 +56,7 @@ func solve(content string) {
 			}
 			dial = new_pos
 		case "R":
+			fmt.Print("R: ", dist)
 			new_pos := (dial + dist)
 			// Count rotations past 0 that are less than a circle
 			if dial+(dist%100) > 100 && dial != 0 {
@@ -82,6 +84,8 @@ func solve(content string) {
 			part_1 += 1
 			part_2 += 1
 		}
+
+		fmt.Println("\tDial: ", dial, "\tPart 2: ", part_2)
 	}
 
 	fmt.Println("***********************  RESULT  *************************")
