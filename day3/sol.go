@@ -91,11 +91,3 @@ func select_n_batteries(content string, n int) int {
 
 	return sum
 }
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	} else {
-		return y
-	}
-}
