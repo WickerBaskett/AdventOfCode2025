@@ -16,7 +16,7 @@ func main() {
 	//  Read Input File  //
 	///////////////////////
 
-	content, err := os.ReadFile("input.txt")
+	content, err := os.ReadFile("demoinput.txt")
 
 	if err != nil {
 		log.Fatal(err)
