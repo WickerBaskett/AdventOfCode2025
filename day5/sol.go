@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -19,7 +18,7 @@ func main() {
 	//  Read Input File  //
 	///////////////////////
 
-	content, err := os.ReadFile("input.txt")
+	content, err := os.ReadFile("demoinput.txt")
 
 	if err != nil {
 		log.Fatal(err)
@@ -40,12 +39,13 @@ func solve(content string) (int, int) {
 
 	lines := strings.Split(content, "\n")
 
-	// This overcounts, I should fix that
-	id_ranges := make([]int, 0)
-	seen := make(map[int]bool)
+	id_ranges := make([][]int, 0)
 	ids := make([]int, 0)
 
-	// Parse Input into two slices
+	///////////////////
+	//  Parse Input  //
+	///////////////////
+
 	first_half := true
 	for i := 0; i < len(lines); i++ {
 		if first_half {
@@ -53,6 +53,8 @@ func solve(content string) (int, int) {
 				first_half = false
 				continue
 			}
+
+			curr_range := make([]int, 2)
 
 			vals := strings.Split(lines[i], "-")
 			start, err := strconv.Atoi(vals[0])
@@ -64,12 +66,11 @@ func solve(content string) (int, int) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			for j := start; j <= end; j++ {
-				if !seen[j] {
-					seen[j] = true
-					id_ranges = append(id_ranges, j)
-				}
-			}
+
+			curr_range[0] = start
+			curr_range[1] = end
+
+			id_ranges = append(id_ranges, curr_range)
 		} else {
 			if lines[i] == "" {
 				continue
@@ -82,19 +83,20 @@ func solve(content string) (int, int) {
 		}
 	}
 
+	//////////////
+	//  Part 1  //
+	//////////////
+
+	// Loop over ids
 	for k := range ids {
-		if seen[ids[k]] == true {
-			part_1 += 1
+		// Loop over ranges per id
+		for l := range len(id_ranges) {
+			if ids[k] >= id_ranges[l][0] && ids[k] <= id_ranges[l][1] {
+				part_1 += 1
+				break
+			}
 		}
 	}
 
-	sort.Ints(id_ranges)
-
-	fmt.Println("ID RANGES: ", id_ranges)
-
 	return part_1, part_2
-}
-
-func merge_ranges(ranges [][]int) {
-
 }
