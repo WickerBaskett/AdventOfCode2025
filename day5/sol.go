@@ -1,6 +1,6 @@
 // tmpl.go
 // Elliott R. Lewandowski
-// 2025-12-05
+// 2025-12-08
 // Solution to Advent of Code 2025 day 5
 package main
 
@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -18,7 +19,7 @@ func main() {
 	//  Read Input File  //
 	///////////////////////
 
-	content, err := os.ReadFile("demoinput.txt")
+	content, err := os.ReadFile("input.txt")
 
 	if err != nil {
 		log.Fatal(err)
@@ -83,19 +84,45 @@ func solve(content string) (int, int) {
 		}
 	}
 
+	////////////////////////////////
+	//  Merge Overlapping Ranges  //
+	////////////////////////////////
+
+	// Pre sort so we only have to look at the next element when trying to merge ranges
+	sort.Slice(id_ranges, func(i int, j int) bool {
+		return id_ranges[i][0] < id_ranges[j][0]
+	})
+
+	for j := 0; j < len(id_ranges)-1; j++ {
+		if id_ranges[j][1]+1 >= id_ranges[j+1][0] {
+			fmt.Println("WE SHOULD MERGE: ", id_ranges[j], " : ", id_ranges[j+1])
+			if id_ranges[j][1] < id_ranges[j+1][1] {
+				id_ranges[j][1] = id_ranges[j+1][1]
+			}
+			id_ranges = append(id_ranges[:j+1], id_ranges[j+2:]...)
+			j--
+		}
+	}
+
 	//////////////
 	//  Part 1  //
 	//////////////
 
-	// Loop over ids
 	for k := range ids {
-		// Loop over ranges per id
 		for l := range len(id_ranges) {
 			if ids[k] >= id_ranges[l][0] && ids[k] <= id_ranges[l][1] {
 				part_1 += 1
 				break
 			}
 		}
+	}
+
+	//////////////
+	//  Part 2  //
+	//////////////
+
+	for m := range len(id_ranges) {
+		part_2 += id_ranges[m][1] - id_ranges[m][0] + 1
 	}
 
 	return part_1, part_2
