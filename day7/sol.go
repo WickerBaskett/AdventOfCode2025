@@ -99,16 +99,21 @@ func sol_part_1(manifold [][]string) int {
 }
 
 func sol_part_2(manifold [][]string) int {
+
 	part_2 := 0
 	cumulative := make([][]int, len(manifold)/2)
+
 	for i := len(manifold) - 2; i > 1; i -= 2 {
 		for j, char := range manifold[i] {
+
 			if char == "^" {
+
 				if i == len(manifold)-2 {
 					cumulative[i/2] = append(cumulative[i/2], 2)
 					continue
 				}
 
+				// Sum timelines spawned by left and right particles
 				l := false
 				r := false
 				sum := 0
@@ -143,12 +148,7 @@ func sol_part_2(manifold [][]string) int {
 		}
 	}
 
-	for i, line := range cumulative {
-		fmt.Println(i, ": ", line)
-	}
-
 	for val := range cumulative[1] {
-		fmt.Print(cumulative[1][val], " ")
 		if cumulative[1][val] > 0 {
 			part_2 += cumulative[1][val]
 			break
