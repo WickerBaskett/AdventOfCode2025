@@ -1,6 +1,6 @@
 // sol.go
 // Elliott R. Lewandowski
-// 2025-12-05
+// 2025-12-17
 // Solution to Advent of Code 2025 day 7
 package main
 
